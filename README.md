@@ -238,7 +238,14 @@ Finally, you may also have noticed how the `submit()` method from `NewArticleMan
 
 ## Those `manager.foo.bar.method.bind( manager.foo.bar )` are boring!
 
-Aren't they. If you are using babel (which I assume you are if you are able to load es6 classes :) ), you can add the stage-0 preset to be able to take advantage of class properties and use fat arrow for autobinding:
+Aren't they. If you are using babel (which I assume you are if you are able to load es6 classes :) ), you have two stage-1 features you can take advantage of:
+
+* [Class property declaration](https://github.com/jeffmo/es-class-fields-and-static-properties)
+* [decorators](https://github.com/wycats/javascript-decorators/blob/master/README.md)
+
+Be aware though that those are still propositions, not yet accepted in specs. Their syntax may change in the future, or they may be simply rejected.
+
+Using class properties:
 
 ```javascript
 class MainManager extends DataManager {
@@ -252,7 +259,25 @@ class MainManager extends DataManager {
 }
 ```
 
-Be aware though that this is a es7 proposition, not yet accepted in specs. Its syntax may change in the future, or it may be simply rejected.
+Using decorators (example here use [autobind-decorator](https://github.com/andreypopp/autobind-decorator)):
+
+```javascript
+var autobind = require( 'autobind-decorator' );
+
+@autobind
+class MainManager extends DataManager {
+  getInitialState(){
+    return { foo: 'bar' };
+  }
+
+  fooChanged( event ){
+    this.setState({ foo: event.target.value });
+  }
+}
+```
+
+The decorator option requires a bit more of work (especially if you use babel6), but at the time of this writing, it seems like it has more chances to make it into the standard quick. It's also a bit easier to refactor into classic `bind()`, should the proposition be rejected.
+
 
 
 ## I don't use `browserify`, `babel` and `npm` :(
