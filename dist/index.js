@@ -172,7 +172,10 @@ DataManager.createClass = function (properties) {
 };
 
 if (typeof module !== 'undefined' && module['exports']) {
-  module['exports'].default = DataManager;
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  exports['default'] = DataManager;
 } else if (typeof undefined !== 'undefined') {
   undefined['DataManager'] = DataManager;
 }
